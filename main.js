@@ -1,10 +1,12 @@
 $(function() {
   const $yomi = $('#yomi');
   const $mondai = $('#mondai');
+  const $finishPanel = $('#finish-panel');
 
   let char_index = 1;
   let max_length = 3;
-  let question_number = 1;
+  let question_number = 0;
+  let question_limit = 3;
 
   const MONDAI_LIST = [
     {yomi:'ごはん', text:'gohan'},
@@ -18,16 +20,20 @@ $(function() {
 
     const $target = $('#char-'+ char_index);
     const char = $target.text();
-    if (e.key == char) {
+    if (e.key === char) {
       $target.removeClass('default');
       $target.addClass('correct');
       char_index++;
     }
 
     if (max_length < char_index) {
+      question_number++;
+      if (question_limit < question_number) {
+        finish();
+        return
+      }
       changeQuestionWord();
       char_index = 1;
-      question_number++;
     }
     function changeQuestionWord() {
       const word = MONDAI_LIST[question_number]['text'];
@@ -38,6 +44,12 @@ $(function() {
       }
       $mondai.html(newHtml);
       $yomi.text(MONDAI_LIST[question_number]['yomi']);
+    }
+
+    function finish() {
+      $finishPanel.removeClass('hidden');
+      $yomi.hide();
+      $mondai.hide();
     }
   });
 });

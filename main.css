@@ -36,4 +36,21 @@
   color: black;
   text-shadow: none;
 }
-CSS適用前
+#start-button {
+  font-size: 1.0em;
+  font-weight: bold;
+  padding: 10px 30px;
+  background-color: #248;
+  color: #fff;
+  border-style: none;
+  cursor: pointer;
+}
+
+#finish-panel {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.hidden {
+  display: none;
+}
