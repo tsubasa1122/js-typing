@@ -10,6 +10,7 @@ $(function() {
   let max_length = 3; //TODO 最初の問題
   let question_number = 1;
   let question_limit = 3;
+  let done_questions = {};
   
   // 問題
   const MONDAI_LIST = [
@@ -25,11 +26,12 @@ $(function() {
     {yomi:'ふとん', text:'futon'},
   ];
   
-  changeQuestionWord(0); //最初の問題の設定
+  changeQuestionWord(getQuestionNumber());
   
   $countSelect.on('change', function(e) {
     question_limit = Number($countSelect.val());
-    changeQuestionWord(0);
+    done_questions = {};
+    changeQuestionWord(getQuestionNumber());
   });
 
   $(document).on('keypress', function(e){
@@ -37,7 +39,6 @@ $(function() {
     const $target = $('#char-'+char_index);
     const char = $target.text();
     if (e.key === char) { //入力文字と現在の位置の文字が一緒だったら
-      // alert('正解!');
       $target.removeClass('default');
       $target.addClass('correct');
       char_index++;
@@ -49,11 +50,20 @@ $(function() {
          finish();
          return;
       }
-      changeQuestionWord(question_number);
+      changeQuestionWord(getQuestionNumber());
       char_index = 1; //初期化
     }
 
   });
+  
+  function getQuestionNumber() {
+    let random_number = Math.floor(Math.random() * 10);
+    while (done_questions[random_number] !== undefined) {
+      random_number = Math.floor(Math.random() * 10);
+    }
+    done_questions[random_number] = random_number;
+    return random_number;
+  }
   
   function finish() {
     $finishPanel.removeClass('hidden');
